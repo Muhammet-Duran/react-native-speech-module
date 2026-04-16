@@ -13,12 +13,15 @@ npm install github:Muhammet-Duran/react-native-speech-module-pkg
 ```
 
 ### Android
+
 No extra steps. Autolinking handles everything.
 
 ### iOS
+
 ```bash
 cd ios && pod install
 ```
+
 Then in Xcode, add `SpeechModule.swift` and `SpeechModuleBridge.m` to your target.
 
 ---
@@ -26,13 +29,17 @@ Then in Xcode, add `SpeechModule.swift` and `SpeechModuleBridge.m` to your targe
 ## Permissions
 
 ### Android
+
 Add to `AndroidManifest.xml` (auto-merged via the package manifest):
+
 ```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
 
 ### iOS
+
 Add to `Info.plist`:
+
 ```xml
 <key>NSMicrophoneUsageDescription</key>
 <string>Microphone access is required for voice input.</string>
@@ -45,15 +52,30 @@ Add to `Info.plist`:
 ## Usage
 
 ```tsx
-import { useVoice } from 'react-native-speech-module';
+import { Pressable, Text, TextInput } from "react-native";
+import { useVoice } from "react-native-speech-module";
 
 const MyScreen = () => {
-  const { status, displayedText, toggleListening, onTextChange } = useVoice('tr-TR');
+  const { status, displayedText, toggleListening, onTextChange } =
+    useVoice("tr-TR");
 
   return (
     <>
       <TextInput value={displayedText} onChangeText={onTextChange} />
-      <Button title={status === 'listening' ? 'Stop' : 'Speak'} onPress={toggleListening} />
+      <Pressable
+        onPress={toggleListening}
+        style={{
+          padding: 12,
+          backgroundColor: "#007AFF",
+          borderRadius: 6,
+          alignItems: "center",
+          marginTop: 8,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          {status === "listening" ? "Stop" : "Speak"}
+        </Text>
+      </Pressable>
     </>
   );
 };
@@ -65,19 +87,21 @@ const MyScreen = () => {
 
 ### `useVoice(locale?: string)`
 
-| Return value      | Type                        | Description                        |
-|-------------------|-----------------------------|------------------------------------|
-| `status`          | `VoiceStatus`               | idle / listening / processing / typing / done |
-| `displayedText`   | `string`                    | Transcribed text (animated)        |
-| `isListening`     | `boolean`                   | Shorthand for `status === 'listening'` |
-| `error`           | `string \| null`            | Last error message                 |
-| `toggleListening` | `() => Promise<void>`       | Start / stop listening             |
-| `onTextChange`    | `(text: string) => void`    | Manual text edit handler           |
+| Return value      | Type                     | Description                                   |
+| ----------------- | ------------------------ | --------------------------------------------- |
+| `status`          | `VoiceStatus`            | idle / listening / processing / typing / done |
+| `displayedText`   | `string`                 | Transcribed text (animated)                   |
+| `isListening`     | `boolean`                | Shorthand for `status === 'listening'`        |
+| `error`           | `string \| null`         | Last error message                            |
+| `toggleListening` | `() => Promise<void>`    | Start / stop listening                        |
+| `onTextChange`    | `(text: string) => void` | Manual text edit handler                      |
 
 ### `voiceService`
+
 Low-level bridge. Use `useVoice` instead unless you need custom orchestration.
 
 ### `requestMicrophonePermission()`
+
 Requests Android microphone permission. iOS is handled automatically.
 
 ---
