@@ -1,3 +1,7 @@
+[![npm version](https://img.shields.io/npm/v/react-native-speech-module.svg)](https://www.npmjs.com/package/react-native-speech-module)
+
+**[NPM Paketi](https://www.npmjs.com/package/react-native-speech-module)**
+
 **A cross-platform React Native module for speech recognition and voice interaction, supporting both Android and iOS. Easily integrate voice commands and speech-to-text features into your React Native apps.**
 
 # react-native-speech-module
