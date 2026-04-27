@@ -105,9 +105,14 @@ const useVoice = (locale = "tr-TR"): UseVoiceReturn => {
       status === "typing" &&
       transcript
     ) {
-      startTyping(transcript);
+      if (displayedText === transcript) {
+        setStatus("done");
+      } else {
+        startTyping(transcript);
+      }
     }
     prevStatusRef.current = status;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, transcript, startTyping]);
 
   // --- Register callbacks once on mount ---
@@ -120,6 +125,7 @@ const useVoice = (locale = "tr-TR"): UseVoiceReturn => {
           : text;
         accumulatedRef.current = full;
         setTranscript(full);
+        setDisplayedText(full);
         startSilenceTimer();
         startCommitFallbackTimer();
       },
@@ -129,6 +135,7 @@ const useVoice = (locale = "tr-TR"): UseVoiceReturn => {
           ? `${accumulatedRef.current} ${text}`
           : text;
         setTranscript(full);
+        setDisplayedText(full);
         startCommitFallbackTimer();
       },
       onError: (err) => {
